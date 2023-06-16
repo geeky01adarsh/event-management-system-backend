@@ -1,8 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from "cookie-parser";
-import { adminAuthRouter } from './routers/Admin/auth.js';
-
+import authRouter from './routers/auth.js';
 
 
 
@@ -18,4 +17,4 @@ app.get('/',(req, res)=>{
 })
 
 
-app.use('/api/v1/admin/', adminAuthRouter);
+app.use('/api/v1/auth/', authRouter);

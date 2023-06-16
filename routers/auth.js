@@ -6,7 +6,7 @@ const authRouter = Router();
 
 authRouter.get('/', verifyLogin)
 authRouter.post('/login/', login, createToken)
-authRouter.post('/create/', createUser)
+authRouter.post('/create/', verifyLogin, createUser)
 authRouter.get('/refresh-token/', verifyLogin, createToken);
 
 

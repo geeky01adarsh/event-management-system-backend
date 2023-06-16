@@ -27,6 +27,10 @@ export const login = async (req, res, next) => {
 
     req.id = user._id;
     req.role = user.role;
+    if(user.role==='admin')
+    req.admin = user._id
+    else
+    req.admin = user.admin;
     // if(user.role==='company')
     // return res.status(200).json({ msg: "company login successful" });
     // return res.status(200).json({ msg: "admin login successful" });
@@ -39,7 +43,10 @@ export const login = async (req, res, next) => {
 
 export const createUser = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const id = req.id;
+    const logged_role = req.role;
+    if(logged_role!=='admin') throw "You are not an admin";
+    const { name, email, password } = req.body;
     if (
       !validateName(name) ||
       !validateEmail(email) ||
@@ -56,7 +63,7 @@ export const createUser = async (req, res) => {
       name,
       email,
       password: hashedPass,
-      role: role || "company",
+      admin:id
     });
     await newUser.save();
     return res.status(202).json({ msg: "Account created successfully" });

@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from "cookie-parser";
 import authRouter from './routers/auth.js';
+import eventRouter from './routers/events.js';
 
 
 
@@ -18,3 +19,4 @@ app.get('/',(req, res)=>{
 
 
 app.use('/api/v1/auth/', authRouter);
+app.use('/api/v1/events/', eventRouter)

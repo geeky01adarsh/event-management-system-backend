@@ -18,12 +18,18 @@ const eventSchema = new mongoose.Schema({
     required: true,
   },
   company: {
-    type: String,
+    type: mongoose.ObjectId ,
     required: true,
+    ref : 'User',
     index: true,
+    select:false
   },
   admin: {
-    type: String,
+    type: mongoose.ObjectId ,
+    required: true,
+    ref : 'User',
+    index: true,
+    select:false
   },
   status: {
     type: String,
@@ -35,7 +41,10 @@ const eventSchema = new mongoose.Schema({
   },
   guestLists: {
     type: [String],
+    select:false
   },
 });
 
 const Event = mongoose.model("Event", eventSchema);
+
+export default Event;

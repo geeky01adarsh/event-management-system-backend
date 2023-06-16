@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         required:true,
         default:"company"
     },
+    admin:{
+        type: mongoose.ObjectId,
+        index: true
+    }
 })
 
 

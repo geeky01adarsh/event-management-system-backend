@@ -6,10 +6,11 @@ dotenv.config();
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 export const createToken = (req, res) => {
-  const id = res.id;
-  const role = res.role;
+  const id = req.id;
+  const role = req.role;
+  const admin = req.admin;
   if (req.cookies.user) res.clearCookie("user");
-  const token = jwt.sign({ id, role }, JWT_SECRET_KEY, {
+  const token = jwt.sign({ id, role, admin }, JWT_SECRET_KEY, {
     expiresIn: "180s",
   });
   res.cookie("user", token, {
@@ -23,10 +24,12 @@ export const verifyLogin = async (req, res, next) => {
   if (!token) return res.status(400).json({err:"No token was found"});
   try {
     const user = jwt.verify(token, JWT_SECRET_KEY);
-    req.id = user?.user.id;
-    req.role = user?.user.role;
+    req.id = user?.id;
+    req.role = user?.role;
+    req.admin = user?.admin;
     next();
   } catch (error) {
+    console.error(error)
     return res.status(400).json({ err: error });
   }
 };

@@ -1,4 +1,5 @@
 import Event from "../models/events.js";
+import { getAllEvents } from "./middleware.js";
 
 export const createEvent = async (req, res) => {
   try {
@@ -28,14 +29,7 @@ export const createEvent = async (req, res) => {
 
 export const getEvent = async (req, res, next) => {
   try {
-    const id = req.id;
-    const role = req.role;
-    const admin = req.admin;
-
-    let query;
-    if (role === "admin") query = { admin };
-    else query = { company: id };
-    const events = await Event.find(query);
+    const events = await getAllEvents(req.id, req.role, req.admin);
 
     return res.status(200).json({ events });
   } catch (error) {
@@ -69,7 +63,6 @@ export const getEventbyId = async (req, res) => {
 
 export const approveEventbyId = async (req, res) => {
   try {
-    const id = req.id;
     const role = req.role;
     const admin = req.admin;
     const event_id = req.params.id;
@@ -122,7 +115,6 @@ export const updateEvent = async (req, res) => {
   try {
     const id = req.id;
     const role = req.role;
-    const admin = req.admin;
     const event_id = req.params.id;
     if (role === "admin") throw "No company was found";
     const { name, type, location, description, timeAndDate, company, guests } =
@@ -145,5 +137,28 @@ export const updateEvent = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ err: "Can't update event" });
+  }
+};
+
+export const getPendingEvents = async (req, res) => {
+  try {
+    const events = await getAllEvents(req.id, req.role, req.admin);
+    const pending_events = events.filter((event)=> event.status === 'pending');
+    return res.status(200).json(pending_events);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ err: error });
+  }
+};
+
+
+export const getApprovedEvents = async (req, res) => {
+  try {
+    const events = await getAllEvents(req.id, req.role, req.admin);
+    const approved_events = events.filter((event)=> event.status !== 'pending');
+    return res.status(200).json(approved_events);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ err: error });
   }
 };

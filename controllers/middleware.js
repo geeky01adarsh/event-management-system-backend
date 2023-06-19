@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
+import Event from "../models/events.js";
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ export const createToken = (req, res) => {
 
 export const verifyLogin = async (req, res, next) => {
   const token = req.cookies.user;
-  if (!token) return res.status(400).json({err:"No token was found"});
+  if (!token) return res.status(400).json({err:"No login token was found"});
   try {
     const user = jwt.verify(token, JWT_SECRET_KEY);
     req.id = user?.id;
@@ -33,3 +34,21 @@ export const verifyLogin = async (req, res, next) => {
     return res.status(400).json({ err: error });
   }
 };
+
+
+
+export const getAllEvents = async(id, role, admin) =>{
+  return new Promise(async(resolve, reject)=>{
+    try {
+      let query;
+      if (role === "admin") query = { admin };
+      else query = { company: id };
+      const events = await Event.find(query);
+  
+      resolve (events);
+    } catch (error) {
+      reject (error)
+    }
+  })
+}
+

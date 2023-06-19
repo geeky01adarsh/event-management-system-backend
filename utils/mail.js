@@ -33,7 +33,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendMail = async (email, data) => {
+const sendQRMail = async (email, data) => {
   qrCodeImage = await qrcodeGenerator(data);
   fillValues(email, qrCodeImage);
   const emailOptions = {
@@ -61,6 +61,5 @@ const sendMail = async (email, data) => {
   });
 };
 
-sendMail("adarsh91094@gmail.com", "adarsh");
 
-export default sendMail;
+export default sendQRMail;

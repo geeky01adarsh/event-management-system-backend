@@ -12,6 +12,16 @@ import {
 
 dotenv.config();
 
+export const profile = async(req, res, next) => {
+  try {
+    const user = await User.findById(req.id);
+    return res.status(200).json(user)
+  } catch (error) {
+    return res.status(404).json({error:"No user found"})
+  }
+}
+
+
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -43,9 +53,8 @@ export const login = async (req, res, next) => {
 
 export const createUser = async (req, res) => {
   try {
-    const id = req.id;
-    const logged_role = req.role;
-    if(logged_role!=='admin') throw "You are not an admin";
+    const {id, role} = req.id;
+    if(role!=='admin') throw "You are not an admin";
     const { name, email, password } = req.body;
     if (
       !validateName(name) ||

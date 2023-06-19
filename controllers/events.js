@@ -30,8 +30,7 @@ export const createEvent = async (req, res) => {
 export const getEvent = async (req, res, next) => {
   try {
     const events = await getAllEvents(req.id, req.role, req.admin);
-
-    return res.status(200).json({ events });
+    return res.status(200).json({ events});
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error });
@@ -113,8 +112,8 @@ export const deleteEventbyId = async (req, res) => {
 
 export const updateEvent = async (req, res) => {
   try {
-    const id = req.id;
-    const role = req.role;
+    const {id, role} = req.id;
+   
     const event_id = req.params.id;
     if (role === "admin") throw "No company was found";
     const { name, type, location, description, timeAndDate, company, guests } =

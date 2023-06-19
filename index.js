@@ -3,7 +3,7 @@ import cors from 'cors'
 import cookieParser from "cookie-parser";
 import authRouter from './routers/auth.js';
 import eventRouter from './routers/events.js';
-
+import guestRouter from './routers/guests.js';
 
 
 export const app = express();
@@ -20,3 +20,4 @@ app.get('/',(req, res)=>{
 
 app.use('/api/v1/auth/', authRouter);
 app.use('/api/v1/events/', eventRouter)
+app.use('/api/v1/guests/', guestRouter)

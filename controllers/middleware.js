@@ -51,12 +51,9 @@ export const verifyDetails = async (req, res, next) => {
   try {
     const { role, admin } = req;
     const event_id = req.params.id;
-    console.log(role, admin)
     if (role !== "admin") throw "You are not authorized for this action";
     const event = await Event.findById(event_id).select("+admin");
-    console.log(event.admin)
     if (event.admin != admin) throw "You are not authorized for this action";
-   
     next();
   } catch (error) {
     return res.status(400).json({ error });

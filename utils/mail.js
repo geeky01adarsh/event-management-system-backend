@@ -18,9 +18,8 @@ const BCC = [];
 const EMAIL_SUBJECT = "Code";
 let EMAIL_BODY_HTML;
 let qrCodeImage;
-const fillValues = async (email, data) => {
+const fillValues = async (email) => {
   RECEIVERS_EMAIL = email;
-  console.log(data);
 };
 
 const transporter = nodemailer.createTransport({
@@ -42,7 +41,7 @@ const sendQRMail = async (email, data) => {
     cc: CC,
     bcc: BCC,
     subject: EMAIL_SUBJECT,
-    html: `<p>Please find the QR code attached: ${qrCodeImage}</p><img src="${qrCodeImage}">`,
+    html: `<p>Please find the QR code attached: </p><img src="${qrCodeImage}">`,
     attachments: [
       {
         filename: "qrcode.png",

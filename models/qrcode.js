@@ -15,6 +15,10 @@ const QRCodeSchema = new mongoose.Schema({
     ref: "Event",
     index: true,
   },
+  status: {
+    type:String,
+    default:"pending"
+  }
 });
 
 const QRCode = mongoose.model('QRcode', QRCodeSchema);

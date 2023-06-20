@@ -41,9 +41,6 @@ export const login = async (req, res, next) => {
     req.admin = user._id
     else
     req.admin = user.admin;
-    // if(user.role==='company')
-    // return res.status(200).json({ msg: "company login successful" });
-    // return res.status(200).json({ msg: "admin login successful" });
     next();
   } catch (error) {
     console.error(error);
@@ -53,7 +50,7 @@ export const login = async (req, res, next) => {
 
 export const createUser = async (req, res) => {
   try {
-    const {id, role} = req.id;
+    const {id, role} = req;
     if(role!=='admin') throw "You are not an admin";
     const { name, email, password } = req.body;
     if (
@@ -77,7 +74,6 @@ export const createUser = async (req, res) => {
     await newUser.save();
     return res.status(202).json({ msg: "Account created successfully" });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ err: error });
   }
 };

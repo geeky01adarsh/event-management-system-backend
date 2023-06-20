@@ -59,3 +59,20 @@ export const verifyDetails = async (req, res, next) => {
     return res.status(400).json({ error });
   }
 };
+
+export const verifyEvent = async (req, res, next) => {
+  try {
+    const event_id = req.params.id;
+    const { id, admin } = req;
+    const event = await Event.findById(event_id)
+      .select("+admin")
+      .select("+company");
+    console.log(event);
+    console.log(id, admin, event.company, event.admin)
+    if (id == event.company || (role === 'admin' && admin == event.admin)) next();
+    else throw "unauthrized";
+  } catch (error) {
+    // console.error(error);
+    return res.status(400).json({ err: "You are not authorized for this" });
+  }
+};

@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import authRouter from './routers/auth.js';
 import eventRouter from './routers/events.js';
@@ -10,7 +11,14 @@ export const app = express();
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors())
+app.use(cors({ credentials: true}));
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
 
 // middlewares
 app.get('/',(req, res)=>{

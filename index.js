@@ -14,12 +14,15 @@ app.use(cookieParser())
 // app.use(cors({ credentials: true}));
 app.use(cookieParser());
 app.use(
-  cors({
-    origin: process.env.FRONT_END_URL,
-  })
-);
+    cors({
+        origin: process.env.FRONT_END_URL,
+        credentials: true
+    })
+    );
+    // app.use(cors({ }));
 
 
+  
 // middlewares
 app.get('/',(req, res)=>{
     res.send("Hello World")

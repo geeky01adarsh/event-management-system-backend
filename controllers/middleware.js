@@ -15,7 +15,12 @@ export const createToken = (req, res) => {
   });
   res.cookie("user", token, {
     expire: new Date(Date.now() + 1000 * 180),
+    sameSite: 'none',
+    secure: true,
   });
+  res.setHeader('Access-Control-Allow-Origin', process.env.FRONT_END_URL);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
   return res.status(200).json({ msg: "Successfully logged in" });
 };
 
